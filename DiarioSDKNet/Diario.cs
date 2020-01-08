@@ -47,7 +47,9 @@ namespace DiarioSDKNet
 
         public enum Prediction { Goodware = 0, Malware = 1 };
 
-        public Diario(string appId, string secretKey) 
+        public enum Model { NEURAL_NETWORK = 0, RANDOM_FOREST = 1, DECISION_TREE = 2, SVM = 3 };
+
+        public Diario(string appId, string secretKey)
             : base(appId, secretKey)
         {
         }
@@ -60,7 +62,7 @@ namespace DiarioSDKNet
         /// <summary>
         ///  Gets string of prediction base on Enum
         /// </summary>
-        /// <param name="prediction">G or M</param>
+        /// <param name="prediction"></param>
         /// <returns>Return char G (Goodware) or M (Malware)</returns>
         private static string GetStringPredictonFromPrediction(Prediction prediction)
         {
@@ -84,7 +86,41 @@ namespace DiarioSDKNet
                 return null;
             }
         }
-    
+
+        /// <summary>
+        ///  Gets string of Model base on Enum
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>Return char G (Goodware) or M (Malware)</returns>
+        private static string GetStringModelFromModel(Model model)
+        {
+            try
+            {
+                switch (model)
+                {
+                    case Model.NEURAL_NETWORK:
+                        return "nn";
+
+                    case Model.SVM:
+                        return "svm";
+
+                    case Model.RANDOM_FOREST:
+                        return "rf";
+
+                    case Model.DECISION_TREE:
+                        return "dt";
+
+                    default:
+                        return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Tracer.Instance.TraceAndOutputError(e.ToString());
+                return null;
+            }
+        }
+
 
 
         /// <summary>
@@ -331,13 +367,13 @@ namespace DiarioSDKNet
         /// <param name="version"></param>
         /// </summary>
         /// <returns>Return the json data of model</returns>
-        public DiarioResponse<dynamic> GetPdfModelStatistics(string model, string version)
+        public DiarioResponse<dynamic> GetPdfModelStatistics(Model model, int version)
         {
             try
             {
                 IDictionary<string, string> data = new Dictionary<string, string>();
-                data.Add("model", model);
-                data.Add("version", version);
+                data.Add("model", GetStringModelFromModel(model));
+                data.Add("version", version.ToString());
 
                 return HttpGetProxy<dynamic>(DefaultUrl + Pdf + PathModelStatistics, data);
             }
@@ -355,13 +391,13 @@ namespace DiarioSDKNet
         /// <param name="version"></param>
         /// </summary>
         /// <returns>Return the json data of model</returns>
-        public DiarioResponse<dynamic> GetOfficeModelStatistics(string model, string version)
+        public DiarioResponse<dynamic> GetOfficeModelStatistics(Model model, int version)
         {
             try
             {
                 IDictionary<string, string> data = new Dictionary<string, string>();
-                data.Add("model", model);
-                data.Add("version", version);
+                data.Add("model", GetStringModelFromModel(model));
+                data.Add("version", version.ToString());
 
                 return HttpGetProxy<dynamic>(DefaultUrl + Office + PathModelStatistics, data);
             }
@@ -373,18 +409,16 @@ namespace DiarioSDKNet
         }
 
 
-
-
         /// <summary>
         /// [ADMIN] Update a certain model from its ID (model) for PDF documents.
         /// <param name="model">model nam</param>
         /// </summary>
         /// <returns>Return json message: Done or Error</returns>
-        public DiarioResponse<dynamic> TrainPdfModel(string model)
+        public DiarioResponse<dynamic> TrainPdfModel(Model model)
         {
             try
             {
-                var postData = "{ \"model\" : \"" + model + "\" } ";
+                var postData = "{ \"model\" : \"" + GetStringModelFromModel(model) + "\" } ";
                 return HttpPostProxy<dynamic>(DefaultUrl + Pdf + PathModelTrain, postData);
 
             }
@@ -401,11 +435,11 @@ namespace DiarioSDKNet
         /// <param name="model">model nam</param>
         /// </summary>
         /// <returns>Return json message: Done or Error</returns>
-        public DiarioResponse<dynamic> TrainOfficeModel(string model)
+        public DiarioResponse<dynamic> TrainOfficeModel(Model model)
         {
             try
             {
-                var postData = "{ \"model\" : \"" + model + "\" } ";
+                var postData = "{ \"model\" : \"" + GetStringModelFromModel(model) + "\" } ";
                 return HttpPostProxy<dynamic>(DefaultUrl + Office + PathModelTrain, postData);
             }
             catch (Exception e)
@@ -415,21 +449,17 @@ namespace DiarioSDKNet
             }
         }
 
-
-
-
-
         /// <summary>
         /// [ADMIN] Deploy the selected machine learning model and version for PDF documents.
         /// <param name="model">model nam</param>
         /// <param name="version">version model</param>
         /// </summary>
         /// <returns>Return json message: Done or Error</returns>
-        public DiarioResponse<dynamic> DeployPdfModel(string model, string version)
+        public DiarioResponse<dynamic> DeployPdfModel(Model model, int version)
         {
             try
             {
-                var postData = "{ \"model\" : \"" + model + "\",  \"version\" : \"" + version + "\"} ";
+                var postData = "{ \"model\" : \"" + GetStringModelFromModel(model) + "\",  \"version\" : \"" + version + "\"} ";
                 return HttpPostProxy<dynamic>(DefaultUrl + Pdf + PathModelDeploy, postData);
             }
             catch (Exception e)
@@ -446,11 +476,11 @@ namespace DiarioSDKNet
         /// <param name="version">version model</param>
         /// </summary>
         /// <returns>Return json message: Done or Error</returns>
-        public DiarioResponse<dynamic> DeployOfficeModel(string model, string version)
+        public DiarioResponse<dynamic> DeployOfficeModel(Model model, int version)
         {
             try
             {
-                var postdata = "{ \"model\" : \"" + model + "\",  \"version\" : \"" + version + "\"} ";
+                var postdata = "{ \"model\" : \"" + GetStringModelFromModel(model) + "\",  \"version\" : \"" + version + "\"} ";
                 return HttpPostProxy<dynamic>(DefaultUrl + Office + PathModelDeploy, postdata);
             }
             catch (Exception e)
@@ -459,10 +489,5 @@ namespace DiarioSDKNet
                 return null;
             }
         }
-
-
-
-
-
     }
 }
