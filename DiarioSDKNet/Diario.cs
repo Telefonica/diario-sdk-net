@@ -9,7 +9,6 @@ namespace DiarioSDKNet
 {
     public class Diario : ApiAuth
     {
-
         public const string ApiVersion = "0.1";
         public const string ApiHost = "https://diario.elevenpaths.com";
         public const string DefaultUrl = "/api/" + ApiVersion + "/";
@@ -20,8 +19,6 @@ namespace DiarioSDKNet
         public const string AnonymousUpload = "/anonymous-upload";
         public const string PathValidate = "/validate";
 
-        public const string GetInfo = DefaultUrl + "";
-
         public const string PathMacro = "/macro";
         public const string PathJavascript = "/javascript";
         public const string PathModel = "/model";
@@ -30,9 +27,6 @@ namespace DiarioSDKNet
         public const string PathModelStatistics = PathModel + "/statistics";
         public const string PathModelTrain = PathModel + "/train";
         public const string PathModelDeploy = PathModel + "/deploy";
-
-        public const string BaseURLOpen = "/open/api";
-        public const string CHANGE = BaseURLOpen + "/change";
 
         public const string Pdf = "pdf";
         public const string Office = "office";
@@ -95,7 +89,7 @@ namespace DiarioSDKNet
                 case "NM":
                     return Prediction.NoMacros;
                 case "U":
-                    return Prediction.NoMacros;
+                    return Prediction.Unknown;
                 default:
                     throw new ArgumentException("Invalid value", nameof(prediction));
             }
@@ -135,8 +129,6 @@ namespace DiarioSDKNet
             }
         }
 
-
-
         /// <summary>
         ///  Gets DIARIO prediction and information for a specific document. The prediction could be M (Malware), G(Goodware) and NM (No Macros presence). 
         ///  The prediction NM is only for office documents. The posible stages are A (Analyzed), P (Processing) and F (Failed). 
@@ -159,7 +151,6 @@ namespace DiarioSDKNet
                 return null;
             }
         }
-
 
         /// <summary>
         /// Upload an Office or PDF document for predicting
@@ -216,7 +207,6 @@ namespace DiarioSDKNet
             }
         }
 
-
         /// <summary>
         /// Get the information of a certain macro. 
         /// </summary>
@@ -237,8 +227,6 @@ namespace DiarioSDKNet
                 return null;
             }
         }
-
-
 
         /// <summary>
         /// Get the information of a certain javascript.. 
@@ -261,8 +249,6 @@ namespace DiarioSDKNet
             }
         }
 
-
-
         /// <summary>
         /// [ADMIN] Get the latest version of each machine learning model base on PDF
         /// </summary>
@@ -280,7 +266,6 @@ namespace DiarioSDKNet
             }
         }
 
-
         /// <summary>
         /// [ADMIN] Get the latest version of each machine learning mode base on Office Document
         /// </summary>
@@ -297,8 +282,6 @@ namespace DiarioSDKNet
                 return null;
             }
         }
-
-
 
         /// <summary>
         /// [ADMIN] Manually validate (or correct) the system prediction for a specified document. 
@@ -340,8 +323,6 @@ namespace DiarioSDKNet
             }
         }
 
-
-
         /// <summary>
         /// [ADMIN] Get the algorithm and its version used to predict PDF document. 
         /// </summary>
@@ -376,9 +357,6 @@ namespace DiarioSDKNet
             }
         }
 
-
-
-
         /// <summary>
         /// [ADMIN] Get the information related to the statistics of a certain model for PDF
         /// <param name="model"></param>
@@ -401,7 +379,6 @@ namespace DiarioSDKNet
                 return null;
             }
         }
-
 
         /// <summary>
         /// [ADMIN] Get the information related to the statistics of a certain model for Office
@@ -426,7 +403,6 @@ namespace DiarioSDKNet
             }
         }
 
-
         /// <summary>
         /// [ADMIN] Update a certain model from its ID (model) for PDF documents.
         /// <param name="model">model nam</param>
@@ -446,7 +422,6 @@ namespace DiarioSDKNet
                 return null;
             }
         }
-
 
         /// <summary>
         /// [ADMIN] Update a certain model from its ID (model) for Office documents.
@@ -486,7 +461,6 @@ namespace DiarioSDKNet
                 return null;
             }
         }
-
 
         /// <summary>
         /// [ADMIN] Deploy the selected machine learning model and version for Office documents.
