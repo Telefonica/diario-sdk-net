@@ -6,7 +6,7 @@ DIARIO bridges a natural gap that antiviruses do not usually match. DIARIO is no
 
 #### Prerequisites ####
 
-* .NET Framework 4.6.1+
+* .NET Framework 4.6+
 
 
 * A valid account in DIARIO (https://diario.e-paths.com/index.html) in order to get a **APP_ID** and **SECRET_KEY** keys (Registration is FREE).
